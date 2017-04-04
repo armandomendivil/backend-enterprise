@@ -14,7 +14,7 @@ export MAILGUN_API_KEY=""
 export MAILGUN_DOMAIN=""
 ```
 
-## Running Linter
+## Run Linter
 
 ```bash
 npm run lint
