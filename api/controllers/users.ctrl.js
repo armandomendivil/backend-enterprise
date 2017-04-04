@@ -30,5 +30,5 @@ async function findOne (req, res, next) {
 
 module.exports = {
   findAll,
-  findOne
+  findOne,
 };

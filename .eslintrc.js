@@ -35,6 +35,7 @@ module.exports = {
 		rules: {
 			"quotes": [2,"single"],
 			"comma-dangle": ["error", "always"],
+			"comma-dangle": ["error", "always-multiline"],
 			"linebreak-style": [2,"unix"],
 			"semi": [2,"always"],
 			"no-console": 0
