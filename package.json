@@ -33,6 +33,7 @@
     "mongodb": "2.2.25",
     "mongoose": "4.9.3",
     "mongoose-middleware": "1.0.0",
+    "morgan": "1.8.1",
     "virgen-acl": "0.0.21"
   },
   "devDependencies": {

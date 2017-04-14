@@ -5,8 +5,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
+const util = require('util');
 const path = require('path');
 const cors = require('cors');
+const morgan = require('morgan');
 require('express-async-errors');
 
 const config = require('./config');
@@ -30,6 +32,10 @@ module.exports = () => {
   app.use(bodyParser.urlencoded({ extended: false, limit: '50mb' }));
   app.use(bodyParser.json());
   app.use(methodOverride());
+  app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
+  app.use(morgan(function (tokens, req, res) {
+    return util.inspect({ params: req.params, body: req.body }, false, null);
+  }));
 
   // Public routes
   config.getGlobbedFiles('./api/routes/public/**/*.js').forEach((routePath) => {
