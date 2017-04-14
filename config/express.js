@@ -14,7 +14,7 @@ const {
   logErrors,
   errorHandler,
   ensureAdminAuthenticated,
-  ensureEnduserAuthenticated
+  ensureEnduserAuthenticated,
 } = require('../middlewares');
 
 module.exports = () => {
@@ -62,12 +62,12 @@ module.exports = () => {
   });
 
   // Admin routes
-  config.getGlobbedFiles('./api/routes/notFound.route.js').forEach((routePath) => {
-    /*eslint-disable */
-    const route = require(path.resolve(routePath))(express);
-    /*eslint-enable */
-    app.use(route);
-  });
+  // config.getGlobbedFiles('./api/routes/notFound.route.js').forEach((routePath) => {
+  //   /*eslint-disable */
+  //   const route = require(path.resolve(routePath))(express);
+  //   /*eslint-enable */
+  //   app.use(route);
+  // });
 
   app.use(logErrors);
   app.use(errorHandler);

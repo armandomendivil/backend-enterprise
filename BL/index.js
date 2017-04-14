@@ -8,8 +8,8 @@ class UsersBL extends DataDL {
     this.dataDL = new DataDL(name);
   }
 
-  async getAll () {
-    const result = await this.dataDL.findAll();
+  async getAll (query, params) {
+    const result = await this.dataDL.findAll(query, params);
     return result;
   }
 

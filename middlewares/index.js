@@ -51,6 +51,13 @@ exports.ensureEnduserAuthenticated = function ensureEnduserAdminAuthenticated(re
   next();
 }
 
+exports.paramHandler = function paramHandler(err, req, res, next) {
+  if (req.method === 'POST') {
+    next('hola');
+  }
+  next();
+}
+
 exports.logErrors = function logErrors(err, req, res, next) {
   console.error(err.stack);
   next(err);
@@ -68,4 +75,3 @@ exports.errorHandler = function errorHandler(err, req, res, next) {
   res.status(500);
   res.send({ error: 'Something went wrong' });
 }
-
