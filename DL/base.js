@@ -24,11 +24,6 @@ class DataDL extends Environment {
     const offset = params.offset || 0;
     const limit = params.limit || 10;
     let result = {};
-    console.log('HERE----', this.ACL);
-    this.ACL.allowedPermissions('james', ['blogs', 'forums'], (err, permissions) => {
-      console.log('ERROR:', err);
-      console.log('PERMISSIONS:', permissions);
-    });
 
     // Get count of total records with query
     var count = await this[name].find(query).count();
