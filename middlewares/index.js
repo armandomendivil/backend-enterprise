@@ -1,7 +1,11 @@
 // middleware.js
+
+const passport = require('passport');
 const jwt = require('jwt-simple');
 const moment = require('moment');
 const config = require('../config/config');
+require('../config/passport')(passport);
+
 /* eslint-disable */
 exports.ensureAdminAuthenticated = function ensureAdminAuthenticated(req, res, next) {
   if (!req.headers.authorization) {
@@ -11,51 +15,24 @@ exports.ensureAdminAuthenticated = function ensureAdminAuthenticated(req, res, n
   }
 
   const token = req.headers.authorization.split(' ')[1];
-  const payload = jwt.decode(token, config.TOKEN_SECRET);
-
-  if (payload.exp <= moment().unix()) {
-    return res
-      .status(403)
-      .send({ code: 403, message: 'Token expired.' });
-  } else if (payload.role !== 1) {
-    return res
-      .status(403)
-      .send({ code: 403, message: 'Unauthorized access.' })
+  let payload = {};
+  try {
+    payload = jwt.decode(token, config.TOKEN_SECRET);
+  } catch (e) {
+    var err = new Error();
+    err.status = 403;
+    err.message = 'Invalid token';
+    throw err;
   }
 
-  req.user = payload.sub;
-  next();
-}
-
-exports.ensureEnduserAuthenticated = function ensureEnduserAdminAuthenticated(req, res, next) {
-  if (!req.headers.authorization) {
-    return res
-      .status(403)
-      .send({ code: 403, message: 'Your request has no authorization header.' });
-  }
-
-  const token = req.headers.authorization.split(' ')[1];
-  const payload = jwt.decode(token, config.TOKEN_SECRET);
-
-  if (payload.exp <= moment().unix()) {
-    return res
-      .status(403)
-      .send({ code: 403, message: 'Token expired.' });
-  } else if (payload.id === 1) {
-    return res
-      .status(403)
-      .send({ code: 403, message: 'Unauthorized access.' })
-  }
-
-  req.user = payload.sub;
-  next();
-}
-
-exports.paramHandler = function paramHandler(err, req, res, next) {
-  if (req.method === 'POST') {
-    next('hola');
-  }
-  next();
+  passport.authenticate('jwt', (err, data, info) => {
+    if (payload.exp <= moment().unix() || !payload.exp) {
+      return res
+        .status(403)
+        .send({ code: 403, message: 'Token expired.' });
+    }
+    next();
+  })(req, res, next);
 }
 
 exports.logErrors = function logErrors(err, req, res, next) {
@@ -64,14 +41,12 @@ exports.logErrors = function logErrors(err, req, res, next) {
 }
 
 exports.errorHandler = function errorHandler(err, req, res, next) {
-
-  if (err.status === 404) {
-    res.status(404);
-    res.send({ error: 'Route not found' });
-  } else if (res.headersSent) {
+  let status = err.status || 500;
+  let message = err.message || 'Something went wrong';
+  if (res.headersSent) {
     return next(err);
   }
 
-  res.status(500);
-  res.send({ error: 'Something went wrong' });
+  res.status(status);
+  res.send({ error: message });
 }

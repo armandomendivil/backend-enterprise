@@ -64,6 +64,24 @@ class DataDL extends Environment {
 
     return result;
   }
+
+  /**
+   * Save new document
+   * @param {Objectt} document - required
+   */
+  async save (document) {
+    const name = this.name;
+    let result = {};
+
+    try {
+      const newDocument = new this[name](document);
+      result = await newDocument.save();
+    } catch (e) {
+      throw Error(e);
+    }
+
+    return result;
+  }
 }
 
 module.exports = DataDL;

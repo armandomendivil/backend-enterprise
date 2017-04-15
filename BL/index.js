@@ -17,6 +17,16 @@ class UsersBL extends DataDL {
     const result = await this.dataDL.findOne();
     return result;
   }
+
+  async save (document) {
+    const result = await this.dataDL.save(document);
+    return result;
+  }
+
+  async comparePassword (password) {
+    const result = await this.dataDL.comparePassword(password);
+    return result;
+  }
 }
 
 module.exports = UsersBL;

@@ -9,8 +9,7 @@ const util = require('util');
 const path = require('path');
 const cors = require('cors');
 const morgan = require('morgan');
-require('express-async-errors');
-
+const passport = require('passport');
 const config = require('./config');
 const {
   logErrors,
@@ -19,13 +18,15 @@ const {
   ensureEnduserAuthenticated,
 } = require('../middlewares');
 
+require('express-async-errors');
+
 module.exports = () => {
   // Initialize express app
   const app = express();
 
   // Setting the app router and static folder
   app.use(express.static(path.resolve('./public')));
-  app.set('view engine', 'jade');
+  app.set('view engine', 'pug');
   app.use('/scripts', express.static(path.resolve('./node_modules')));
   app.use(cors());
   // Middlewares - process between views and controller
@@ -36,6 +37,8 @@ module.exports = () => {
   app.use(morgan(function (tokens, req, res) {
     return util.inspect({ params: req.params, body: req.body }, false, null);
   }));
+
+  app.use(passport.initialize());
 
   // Public routes
   config.getGlobbedFiles('./api/routes/public/**/*.js').forEach((routePath) => {
@@ -53,12 +56,6 @@ module.exports = () => {
     app.use('/api/enduser', ensureEnduserAuthenticated, route);
   });
 
-  // Schedule routes
-  config.getGlobbedFiles('./api/routes/cronjobs/**/*.js').forEach((routePath) => {
-    /*eslint-disable */
-    const route = require(path.resolve(routePath))(express);
-  });
-
   // Admin routes
   config.getGlobbedFiles('./api/routes/admin/**/*.js').forEach((routePath) => {
     /*eslint-disable */
@@ -68,12 +65,12 @@ module.exports = () => {
   });
 
   // Admin routes
-  // config.getGlobbedFiles('./api/routes/notFound.route.js').forEach((routePath) => {
-  //   /*eslint-disable */
-  //   const route = require(path.resolve(routePath))(express);
-  //   /*eslint-enable */
-  //   app.use(route);
-  // });
+  config.getGlobbedFiles('./api/routes/notFound.route.js').forEach((routePath) => {
+    /*eslint-disable */
+    const route = require(path.resolve(routePath))(express);
+    /*eslint-enable */
+    app.use(route);
+  });
 
   app.use(logErrors);
   app.use(errorHandler);
