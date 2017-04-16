@@ -8,7 +8,7 @@ module.exports = {
     db: process.env.db || 'test',
     host: process.env.host || '127.0.0.1',
   },
-  SERVER_PORT: 3000,
+  SERVER_PORT: 9000,
   ip: 'localhost',
   CLIENT_EMAIL: process.env.CLIENT_EMAIL || 'test@test.com',
   TOKEN_SECRET: process.env.TOKEN_SECRET || 'secretToken',
