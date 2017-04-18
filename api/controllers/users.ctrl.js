@@ -1,8 +1,4 @@
 
-/**
- * Controller
- */
-
 const util = require('util');
 const UsersBL = require('../../BL');
 const usersBL = new UsersBL();

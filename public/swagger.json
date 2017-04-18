@@ -1,0 +1,72 @@
+{
+ "swagger": "2.0",
+ "info": {
+  "version": "1.0.0",
+  "title": "Backend API"
+ },
+ "host": "localhost:3000",
+ "basePath": "/",
+ "schemes": [
+  "http"
+ ],
+ "consumes": [
+  "application/json"
+ ],
+ "produces": [
+  "application/json"
+ ],
+ "paths": {
+  "/api/users": {
+   "get": {
+    "summary": "Get all users",
+    "description": "Get all users from table",
+    "operationId": "getAllUsers",
+    "parameters": [
+     {
+      "name": "search",
+      "in": "query",
+      "description": "search by email",
+      "required": false,
+      "type": "string"
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Search success."
+     },
+     "404": {
+      "description": "Route not found"
+     },
+     "500": {
+      "description": "Something went wrong"
+     }
+    }
+   },
+   "post": {
+    "summary": "Get all users",
+    "description": "Get all users from table",
+    "operationId": "getAllUsers",
+    "parameters": [
+     {
+      "name": "search",
+      "in": "query",
+      "description": "search by email",
+      "required": false,
+      "type": "string"
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Search success."
+     },
+     "404": {
+      "description": "Route not found"
+     },
+     "500": {
+      "description": "Something went wrong"
+     }
+    }
+   }
+  }
+ }
+}

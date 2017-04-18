@@ -8,8 +8,17 @@ class UsersBL extends DataDL {
     this.dataDL = new DataDL(name);
   }
 
-  async getAll (query, params) {
-    const result = await this.dataDL.findAll(query, params);
+  /**
+   * Get all users
+   * @param {object} query - The query parameters
+   * @param {string} query.search - Search for multiple fields
+   * @param {object} pagination - The pagination paramaters
+   * @param {number} pagination.limit - The pagination limit
+   * @param {number} pagination.offset - The pagination offset
+   * @return {array} users
+   */
+  async getAll (query, pagination) {
+    const result = await this.dataDL.findAll(query, pagination);
     return result;
   }
 

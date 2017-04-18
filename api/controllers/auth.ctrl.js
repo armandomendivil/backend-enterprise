@@ -3,6 +3,12 @@ const { createToken } = require('../helpers');
 const UsersBL = require('../../BL');
 const usersBL = new UsersBL();
 
+/**
+ * Register user
+ * @param {string} [email] - The user's email
+ * @param {string} password - The user's password
+ * @return {string} token - The user's token
+ */
 async function register (req, res, next) {
   if (!req.body.email || !req.body.password) {
     res.json({ success: false, msg: 'Error please enter your email and password' });

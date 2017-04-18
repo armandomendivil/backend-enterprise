@@ -9,9 +9,10 @@ require('../config/passport')(passport);
 /* eslint-disable */
 exports.ensureAdminAuthenticated = function ensureAdminAuthenticated(req, res, next) {
   if (!req.headers.authorization) {
-    return res
-      .status(403)
-      .send({ code: 403, message: 'Your request has no authorization header.' });
+    var err = new Error();
+    err.status = 403;
+    err.message = 'Your request has no authorization header.'
+    throw err;
   }
 
   const token = req.headers.authorization.split(' ')[1];
