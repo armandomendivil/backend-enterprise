@@ -2,7 +2,7 @@
 
 ## Configure environment variables
 
-You can use config/env to add your configuration file for the environment
+You can use config/env to add your configuration file for the environment.
 
 ```
 export host="127.0.0.1"
