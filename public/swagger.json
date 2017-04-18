@@ -4,16 +4,16 @@
   "version": "1.0.0",
   "title": "Backend API"
  },
- "host": "localhost:3000",
+ "host": "192.168.50.4:9000",
  "basePath": "/",
  "schemes": [
   "http"
  ],
  "consumes": [
-  "application/json"
+  "application/x-www-form-urlencoded"
  ],
  "produces": [
-  "application/json"
+  "application/x-www-form-urlencoded"
  ],
  "paths": {
   "/api/user/register": {
@@ -24,14 +24,14 @@
     "parameters": [
      {
       "name": "email",
-      "in": "query",
+      "in": "formData",
       "description": "The user email",
       "required": true,
       "type": "string"
      },
      {
       "name": "password",
-      "in": "query",
+      "in": "formData",
       "description": "The user password",
       "required": true,
       "type": "string"
