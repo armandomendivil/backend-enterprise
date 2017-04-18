@@ -16,48 +16,30 @@
   "application/json"
  ],
  "paths": {
-  "/api/users": {
-   "get": {
-    "summary": "Get all users",
-    "description": "Get all users from table",
-    "operationId": "getAllUsers",
-    "parameters": [
-     {
-      "name": "search",
-      "in": "query",
-      "description": "search by email",
-      "required": false,
-      "type": "string"
-     }
-    ],
-    "responses": {
-     "200": {
-      "description": "Search success."
-     },
-     "404": {
-      "description": "Route not found"
-     },
-     "500": {
-      "description": "Something went wrong"
-     }
-    }
-   },
+  "/api/user/register": {
    "post": {
-    "summary": "Get all users",
-    "description": "Get all users from table",
-    "operationId": "getAllUsers",
+    "summary": "Register an user",
+    "description": "Register an user with role",
+    "operationId": "register",
     "parameters": [
      {
-      "name": "search",
+      "name": "email",
       "in": "query",
-      "description": "search by email",
-      "required": false,
+      "description": "The user email",
+      "required": true,
+      "type": "string"
+     },
+     {
+      "name": "password",
+      "in": "query",
+      "description": "The user password",
+      "required": true,
       "type": "string"
      }
     ],
     "responses": {
      "200": {
-      "description": "Search success."
+      "description": "User registration went successful"
      },
      "404": {
       "description": "Route not found"
