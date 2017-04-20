@@ -111,7 +111,6 @@ class UsersBL extends DataDL {
     };
 
     var user = await this.dataDL.findOne(query, fields);
-    console.log('HERE', user);
     if (user) {
       user.password = password;
       user.resetPasswordToken = undefined;
