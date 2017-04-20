@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "title": "Backend API"
  },
- "host": "http://192.168.50.4:9000/",
+ "host": "localhost:9000",
  "basePath": "/",
  "schemes": [
   "http"

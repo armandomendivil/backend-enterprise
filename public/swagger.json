@@ -4,16 +4,16 @@
   "version": "1.0.0",
   "title": "Backend API"
  },
- "host": "192.168.50.4:9000",
+ "host": "localhost:9000",
  "basePath": "/",
  "schemes": [
   "http"
  ],
  "consumes": [
-  "application/x-www-form-urlencoded"
+  "application/json"
  ],
  "produces": [
-  "application/x-www-form-urlencoded"
+  "application/json"
  ],
  "paths": {
   "/api/user/register": {
@@ -40,6 +40,40 @@
     "responses": {
      "200": {
       "description": "User registration went successful"
+     },
+     "404": {
+      "description": "Route not found"
+     },
+     "500": {
+      "description": "Something went wrong"
+     }
+    }
+   }
+  },
+  "/api/user/login": {
+   "post": {
+    "summary": "Login Authentication",
+    "description": "Login authentication with email and password",
+    "operationId": "login",
+    "parameters": [
+     {
+      "name": "email",
+      "in": "formData",
+      "description": "The user email",
+      "required": true,
+      "type": "string"
+     },
+     {
+      "name": "password",
+      "in": "formData",
+      "description": "The user password",
+      "required": true,
+      "type": "string"
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "User login went successful"
      },
      "404": {
       "description": "Route not found"

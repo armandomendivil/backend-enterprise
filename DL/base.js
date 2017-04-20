@@ -36,7 +36,7 @@ class DataDL extends Environment {
         .limit(limit)
         .sort({ createdAt: -1 });
     } catch (e) {
-      throw Error(e);
+      throw e;
     }
 
     return {
@@ -59,7 +59,7 @@ class DataDL extends Environment {
       // Get record with query
       result = await this[name].findOne(query, fields);
     } catch (e) {
-      throw Error(e);
+      throw e;
     }
 
     return result;
@@ -77,7 +77,7 @@ class DataDL extends Environment {
       const newDocument = new this[name](document);
       result = await newDocument.save();
     } catch (e) {
-      throw Error(e);
+      throw e;
     }
 
     return result;

@@ -17,6 +17,9 @@ module.exports = {
     accessKey: process.env.AWS_ACCESS_KEY,
     secretKey: process.env.AWS_SECRET_KEY,
   },
+  sendgrid: {
+    apiKey: process.env.SENDGRID_API_KEY,
+  },
   mailgun: {
     apiKey: process.env.MAILGUN_API_KEY,
     domain: process.env.MAILGUN_DOMAIN,

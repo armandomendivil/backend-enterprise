@@ -30,6 +30,8 @@ var Users = new Schema({
     type: Date,
     default: Date.now,
   },
+  resetPasswordToken: String,
+  resetPasswordExpires: Date,
 });
 
 Users.pre('save', function (next) {
@@ -50,11 +52,17 @@ Users.pre('save', function (next) {
   }
 });
 
-Users.methods.comparePassword = function (password, callback) {
-  bcrypt.compare(password, this.password, function (err, isMatch) {
-    if (err) return callback(err);
-    callback(null, isMatch);
-  });
-};
+Users.path('email').validate(function (value, done) {
+  if (this.isNew) {
+    this.model('Users').count({ email: value }, function (err, count) {
+      if (err) {
+        return done(err);
+      }
+      done(!count);
+    });
+  } else {
+    done(1);
+  }
+}, 'Email already exists');
 
 module.exports = mongoose.model('Users', Users, 'users');

@@ -1,6 +1,6 @@
 
 const { createToken } = require('../helpers');
-const UsersBL = require('../../BL');
+const UsersBL = require('../../BL/users');
 const usersBL = new UsersBL();
 
 /**
@@ -10,47 +10,65 @@ const usersBL = new UsersBL();
  * @return {string} token - The user's token
  */
 async function register (req, res, next) {
-  if (!req.body.email || !req.body.password) {
-    res.json({ success: false, msg: 'Error please enter your email and password' });
-  } else {
-    try {
-      const newUser = {
-        email: req.body.email,
-        password: req.body.password,
-      };
+  try {
+    const newUser = {
+      email: req.body.email,
+      password: req.body.password,
+    };
 
-      var result = await usersBL.save(newUser);
-      return res.send({ data: result });
-    } catch (e) {
-      throw Error(e);
-    }
+    var user = await usersBL.save(newUser);
+    var token = createToken(user);
+    return res.send({ data: user, token });
+  } catch (e) {
+    throw e;
   }
 }
 
 async function login (req, res, next) {
   const { email, password } = req.body;
-  let user = {};
+  let isMatch = false;
   let query = { email: email };
   let token;
 
-  try {
-    user = usersBL.findOne(query);
-    if (!user) return res.status(403).send({ success: false, msg: 'authentication false :/' });
+  var err = new Error();
+  err.name = 'AuthenticationFailed';
 
-    let isMatch = usersBL.comparePassword(password);
+  try {
+    // Find user by email
+    var user = await usersBL.findOne(query);
+    if (user) {
+      isMatch = await usersBL.validate(password, user.password);
+    }
+
     if (isMatch) {
       token = createToken(user);
     } else {
-      return res.status(403).send({ success: false, msg: 'authentication, wrong password' });
+      throw err;
     }
-  } catch (e) {
-    throw Error(e);
-  }
 
-  return res.send({ data: token });
+    return res.send({
+      data: { _id: user._id, email: user.email },
+      token,
+    });
+  } catch (e) {
+    throw e;
+  }
+}
+
+async function forgotPassword (req, res, next) {
+  const email = req.body.email;
+  var result = await usersBL.forgotPassword(email);
+  res.send({ data: result });
+}
+
+async function resetPassword (req, res, next) {
+  var result = await usersBL.resetPassword(req.params.token);
+  res.send({ data: result });
 }
 
 module.exports = {
   register,
   login,
+  forgotPassword,
+  resetPassword,
 };

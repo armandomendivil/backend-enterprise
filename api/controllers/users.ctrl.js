@@ -1,6 +1,6 @@
 
 const util = require('util');
-const UsersBL = require('../../BL');
+const UsersBL = require('../../BL/users');
 const usersBL = new UsersBL();
 
 async function findAll (req, res, next) {
