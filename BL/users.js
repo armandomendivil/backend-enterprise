@@ -32,10 +32,7 @@ class UsersBL extends DataDL {
 
   async save (document) {
     const result = await this.dataDL.save(document);
-    return {
-      _id: result._id,
-      email: result.email,
-    };
+    return result;
   }
 
   async validate (password, userPwd) {
@@ -58,27 +55,28 @@ class UsersBL extends DataDL {
       user.resetPasswordToken = token;
       user.resetPasswordExpires = tokenExp;
 
-      const result = await this.save(user);
+      await this.save(user);
 
       var url = `${process.env.BASE_URL}/api/user/reset-password/${token}`;
       var from = 'no-reply@test.com';
-      var to = 'armandomendivil.m@gmail.com';
+      var to = user.email;
       var subject = 'Hello';
-      var body = `Your url ${url}`;
+      var body = `Hi ${user.email} - Your url: ${url}`;
 
       await mail.send(from, to, subject, body);
-      return { data: result, token };
+      return { message: 'Check your email to recover password.' };
     } catch (e) {
       throw e;
     }
   }
 
   /**
-   * Reset password
+   * Validate reset password
    * @type {String} token - token by url
    * @return {object} user - User fetched by findOne method
    */
-  async resetPassword (token = '') {
+  async validateResetToken (token = '') {
+    var fields = { _id: 1, email: 1 };
     var query = {
       $and: [
         { resetPasswordToken: token },
@@ -87,9 +85,39 @@ class UsersBL extends DataDL {
     };
 
     // Fetch user
-    var user = await this.dataDL.findOne(query);
+    var user = await this.dataDL.findOne(query, fields);
     if (user) {
       return user;
+    } else {
+      var err = new Error();
+      err.name = 'TokenExpired';
+      throw err;
+    }
+  }
+
+  /**
+   * Reset password
+   * @type {string} token - User token
+   * @type {string} password - User password
+   * @return {object} user - User fetched by findOne mehtod
+   */
+  async resetPassword (token = '', password = '') {
+    var fields = { _id: 1, email: 1 };
+    var query = {
+      $and: [
+        { resetPasswordToken: token },
+        { resetPasswordExpires: { $gt: new Date() } },
+      ],
+    };
+
+    var user = await this.dataDL.findOne(query, fields);
+    console.log('HERE', user);
+    if (user) {
+      user.password = password;
+      user.resetPasswordToken = undefined;
+      user.resetPasswordExpires = undefined;
+      var result = await this.save(user);
+      return result;
     } else {
       var err = new Error();
       err.name = 'TokenExpired';

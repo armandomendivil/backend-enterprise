@@ -61,8 +61,13 @@ async function forgotPassword (req, res, next) {
   res.send({ data: result });
 }
 
+async function validateResetToken (req, res, next) {
+  var result = await usersBL.validateResetToken(req.params.token);
+  res.send({ data: result });
+}
+
 async function resetPassword (req, res, next) {
-  var result = await usersBL.resetPassword(req.params.token);
+  var result = await usersBL.resetPassword(req.params.token, req.body.password);
   res.send({ data: result });
 }
 
@@ -70,5 +75,6 @@ module.exports = {
   register,
   login,
   forgotPassword,
+  validateResetToken,
   resetPassword,
 };

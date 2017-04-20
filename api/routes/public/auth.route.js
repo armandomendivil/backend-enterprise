@@ -17,8 +17,8 @@ module.exports = function route (express) {
    .post(ctrl.forgotPassword);
 
   router.route('/user/reset-password/:token')
-   .get(ctrl.resetPassword);
-   // .post(ctrl`.reset);
+   .get(ctrl.validateResetToken)
+   .post(ctrl.resetPassword);
 
   return router;
 };
