@@ -1,4 +1,4 @@
-# Backend Enterprise
+# Backend REST-API
 
 ## Configure environment variables
 
