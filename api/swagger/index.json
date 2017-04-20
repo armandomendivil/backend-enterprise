@@ -5,7 +5,13 @@
   "title": "Backend API"
  },
  "host": "localhost:9000",
- "basePath": "/",
+ "basePath": "/api/",
+ "tags": [
+   {
+     "name": "auth",
+     "description": "Everything about authentication"
+   }
+ ],
  "schemes": [
   "http"
  ],
