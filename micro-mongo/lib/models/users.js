@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt');
 
-const validateEmail = function (email) {
+const isEmail = function (email) {
   var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; // eslint-disable-line
   return re.test(email);
 };
@@ -15,7 +15,11 @@ var Users = new Schema({
     trim: true,
     unique: true,
     required: 'Email address is required',
-    validate: [validateEmail, 'Please fill a valid email address'],
+    validate: {
+      isAsync: true,
+      validator: (value) => isEmail(value),
+      message: 'Please fill a valid email address',
+    },
   },
   password: {
     type: String,
@@ -51,18 +55,5 @@ Users.pre('save', function (next) {
     next();
   }
 });
-
-Users.path('email').validate(function (value, done) {
-  if (this.isNew) {
-    this.model('Users').count({ email: value }, function (err, count) {
-      if (err) {
-        return done(err);
-      }
-      done(!count);
-    });
-  } else {
-    done(1);
-  }
-}, 'Email already exists');
 
 module.exports = mongoose.model('Users', Users, 'users');

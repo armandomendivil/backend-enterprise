@@ -2,13 +2,16 @@
 
 const Mongoose = require('mongoose');
 require('mongoose-middleware').initialize(Mongoose);
-require('./models')();
+require('./models')(); // Initialize schemas
 
+Mongoose.Promise = require('bluebird');
 const config = require('../../config/config');
 
 let db;
-
 const defaults = config.db;
+
+// Connect to mongo db
+Mongoose.connect(defaults.MONGO_URL);
 
 class Db {
   constructor (options) {
@@ -20,15 +23,16 @@ class Db {
     this.db = options.db || defaults.db;
     this.connected = false;
     this.setup = options.setup || false;
-    this.ACL = {};
   }
 
   async connect () {
-    let uri = this.getUri();
-    this.initializeCollections();
-    db = Mongoose.connect(uri);
-    this.connected = true;
-    return db;
+    try {
+      this.initializeCollections();
+      this.connected = true;
+      return db;
+    } catch (e) {
+      throw e;
+    }
   }
 
   /**
@@ -43,18 +47,6 @@ class Db {
 
     // Merge self object with this
     Object.assign(this, self);
-  }
-
-  getUri () {
-    // Default uri without credentials
-    let uri = `mongodb://${this.host}:${this.port}/${this.db}`;
-
-    // Validate if credentials exists
-    if (this.username && this.password) {
-      uri = `mongodb://${this.username}:${this.password}@${this.host}:${this.port}/${this.db}`;
-    }
-
-    return uri;
   }
 
   async disconnect () {
