@@ -123,6 +123,30 @@ class UsersBL extends DataDL {
       throw err;
     }
   }
+
+  async changePassword (email, oldPassword, newPassword) {
+    try {
+      var isMatch = false;
+      var user = await this.findOne({ email });
+      if (user) {
+        isMatch = await this.validate(oldPassword, user.password);
+      } else {
+        throw new Error('User not found.');
+      }
+
+      if (isMatch) {
+        user.password = newPassword;
+        user.resetPasswordToken = undefined;
+        user.resetPasswordExpires = undefined;
+        var result = await this.save(user);
+        return result;
+      } else {
+        throw new Error('Incorrect password.');
+      }
+    } catch (e) {
+      throw e;
+    }
+  }
 }
 
 module.exports = UsersBL;

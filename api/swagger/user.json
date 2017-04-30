@@ -1,0 +1,44 @@
+{
+  "/users/change-password": {
+   "post": {
+     "tags": ["users"],
+    "summary": "Change user password",
+    "description": "An user can change his password but he needs be authenticated.",
+    "operationId": "changePassword",
+    "parameters": [
+     {
+      "name": "email",
+      "in": "formData",
+      "description": "The user email",
+      "required": true,
+      "type": "string"
+    },
+    {
+     "name": "password",
+     "in": "formData",
+     "description": "The old user password",
+     "required": true,
+     "type": "string"
+   },
+   {
+    "name": "newPassword",
+    "in": "formData",
+    "description": "The new user password",
+    "required": true,
+    "type": "string"
+   }
+    ],
+    "responses": {
+     "200": {
+      "description": "User registration went successful"
+     },
+     "404": {
+      "description": "Route not found"
+     },
+     "500": {
+      "description": "Something went wrong"
+     }
+    }
+  }
+}
+}

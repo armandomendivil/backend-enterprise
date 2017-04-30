@@ -72,7 +72,7 @@ class DataDL extends Environment {
   async save (document) {
     const name = this.name;
     let result = {};
-
+    console.log('NAME:', name)
     try {
       const newDocument = new this[name](document);
       result = await newDocument.save();

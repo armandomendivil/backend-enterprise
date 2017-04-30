@@ -1,0 +1,30 @@
+{
+  "/document": {
+   "post": {
+     "tags": ["documents"],
+    "summary": "Add user document",
+    "description": "Add user document with name field",
+    "operationId": "addDocument",
+    "parameters": [
+     {
+      "name": "name",
+      "in": "formData",
+      "description": "The user document",
+      "required": true,
+      "type": "string"
+    }
+    ],
+    "responses": {
+     "200": {
+      "description": "Add document went successful"
+     },
+     "404": {
+      "description": "Route not found"
+     },
+     "500": {
+      "description": "Something went wrong"
+     }
+    }
+  }
+}
+}

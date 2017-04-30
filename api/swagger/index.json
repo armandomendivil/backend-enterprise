@@ -10,6 +10,14 @@
    {
      "name": "auth",
      "description": "Everything about authentication"
+   },
+   {
+     "name": "users",
+     "description": "Everything about users"
+   },
+   {
+     "name": "documents",
+     "description": "Everything about documents"
    }
  ],
  "schemes": [

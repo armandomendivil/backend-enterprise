@@ -4,14 +4,15 @@
  */
 
 module.exports = function route (express) {
-  const ctrl = require('../../controllers/users.ctrl');
+  const ctrl = require('../../controllers/documents.ctrl');
   const router = express.Router();
-  router.route('/users')
+
+  router.route('/document')
+    .post(ctrl.save);
+
+  router.route('/documents')
     .get(ctrl.findOne)
     .post(ctrl.findAll);
-
-  router.route('/users/change-password')
-    .post(ctrl.changePassword);
 
   return router;
 };

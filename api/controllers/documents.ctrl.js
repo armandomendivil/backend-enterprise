@@ -1,14 +1,14 @@
 
 const util = require('util');
-const UsersBL = require('../../BL/users');
-const usersBL = new UsersBL();
+const DocumentsBL = require('../../BL/documents');
+const documentsBL = new DocumentsBL();
 
 async function findAll (req, res, next) {
   const self = extractFindAllBody(req.body);
 
   let result = {};
   try {
-    result = await usersBL.getAll(self.query, self.params);
+    result = await documentsBL.getAll(self.query, self.params);
   } catch (e) {
     throw Error(e);
   }
@@ -56,19 +56,16 @@ function extractFindAllBody (body) {
 async function findOne (req, res, next) {
   let results = [];
   try {
-    results = await usersBL.getOne();
+    results = await documentsBL.getOne();
   } catch (e) {
     throw Error(e);
   }
   res.send({ data: results });
 }
 
-async function changePassword (req, res, next) {
+async function save (req, res, next) {
   try {
-    var email = req.body.email;
-    var oldPassword = req.body.password;
-    var newPassword = req.body.newPassword;
-    var result = await usersBL.changePassword(email, oldPassword, newPassword);
+    var result = await documentsBL.save(req.body);
     res.send({ data: result });
   } catch (e) {
     throw e;
@@ -78,5 +75,5 @@ async function changePassword (req, res, next) {
 module.exports = {
   findAll,
   findOne,
-  changePassword,
+  save,
 };
