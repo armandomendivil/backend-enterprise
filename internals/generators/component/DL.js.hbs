@@ -1,0 +1,21 @@
+/*
+ * {{ properCase name }} Data Layer
+ *
+ * This contains data layer for the {{ properCase name }} entity.
+ */
+ const Base = require('./base');
+
+ class {{ properCase name }} extends Base {
+   constructor () {
+     super();
+     this.name = '{{ properCase name }}';
+     this.init();
+   }
+
+   async init () {
+     if (!this.name) throw Error('Collection name is required');
+     await this.connect();
+   }
+ }
+
+ module.exports = {{ properCase name }};

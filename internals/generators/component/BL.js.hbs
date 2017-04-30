@@ -1,0 +1,40 @@
+/*
+ * {{ properCase name }} Business Layer
+ *
+ * This contains business layer for the {{ properCase name }} entity.
+ */
+ const DataDL = require('../DL/{{ lowerCase name }}');
+
+ class {{ properCase name }}BL extends DataDL {
+   constructor (name) {
+     super();
+     this.name = name;
+     this.dataDL = new DataDL(name);
+   }
+
+   /**
+    * Get all {{ lowerCase name }}s
+    * @param {object} query - The query parameters
+    * @param {string} query.search - Search for multiple fields
+    * @param {object} pagination - The pagination paramaters
+    * @param {number} pagination.limit - The pagination limit
+    * @param {number} pagination.offset - The pagination offset
+    * @return {array} {{ lowerCase name }}s
+    */
+   async findAll (query, pagination) {
+     const result = await this.dataDL.findAll(query, pagination);
+     return result;
+   }
+
+   async findOne (query = { isActive: true }, fields = { _id: 1, name: 1 }) {
+     const result = await this.dataDL.findOne(query, fields);
+     return result;
+   }
+
+   async save (document) {
+     const result = await this.dataDL.save(document);
+     return result;
+   }
+ }
+
+ module.exports = {{ properCase name }}BL;

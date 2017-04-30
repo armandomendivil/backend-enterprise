@@ -1,0 +1,19 @@
+/*
+ * {{ properCase name }} Routes
+ *
+ * This contains all routes for the {{ properCase name }} entity.
+ */
+
+module.exports = function route (express) {
+  const ctrl = require('../../controllers/{{ lowerCase name}}.ctrl');
+  const router = express.Router();
+
+  router.route('/{{ lowerCase name}}')
+    .post(ctrl.save);
+
+  router.route('/{{ lowerCase name}}s')
+    .get(ctrl.findOne)
+    .post(ctrl.findAll);
+
+  return router;
+};

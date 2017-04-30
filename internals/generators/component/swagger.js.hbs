@@ -1,0 +1,30 @@
+{
+  "/{{ lowerCase name}}": {
+   "post": {
+     "tags": ["{{ lowerCase name}}"],
+    "summary": "Add {{ lowerCase name}} document",
+    "description": "Add {{ lowerCase name}} with name field",
+    "operationId": "add{{ properCase name}}",
+    "parameters": [
+     {
+      "name": "name",
+      "in": "formData",
+      "description": "The user {{ lowerCase name}}",
+      "required": true,
+      "type": "string"
+    }
+    ],
+    "responses": {
+     "200": {
+      "description": "Add document went successful"
+     },
+     "404": {
+      "description": "Route not found"
+     },
+     "500": {
+      "description": "Something went wrong"
+     }
+    }
+  }
+}
+}
