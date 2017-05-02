@@ -70,17 +70,15 @@ class DataDL extends Environment {
    * @param {Objectt} document - required
    */
   async save (document) {
-    const name = this.name;
-    let result = {};
-    console.log('NAME:', name)
     try {
+      const name = this.name;
+      let result = {};
       const newDocument = new this[name](document);
       result = await newDocument.save();
+      return result;
     } catch (e) {
       throw e;
     }
-
-    return result;
   }
 }
 

@@ -7,7 +7,7 @@ module.exports = {
     password: process.env.password,
     db: process.env.db || 'test',
     host: process.env.host || '127.0.0.1',
-    MONGO_URL: 'mongodb://127.0.0.1:27017/test',
+    MONGO_URL: process.env.MONGO_URL || 'mongodb://127.0.0.1:27017/test',
   },
   SERVER_PORT: 9000,
   ip: 'localhost',

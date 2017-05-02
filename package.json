@@ -7,7 +7,8 @@
     "start": "nodemon -L server.js",
     "jsdoc": "grunt",
     "lint": "eslint DL BL API",
-    "test": "ava test/**-test.js"
+    "test": "ava test/**-test.js",
+    "generate": "plop --plopfile internals/generators/index.js"
   },
   "keywords": [
     "Nodejs",
